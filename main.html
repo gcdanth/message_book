@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>민녈 메세지북</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;600;900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="main.css" rel="stylesheet" />
+    <script type="text/javascript" src="main.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script
+      type="text/javascript"
+      src="turnjs4/extras/modernizr.2.5.3.min.js"
+    ></script>
+  </head>
+  <body>
+    <div class="flipbook-viewport">
+      <div class="container">
+        <div class="flipbook" id="flipbook">
+          <div
+            style="background-image: url(src/img/front.png)"
+            class="hard"
+          ></div>
+          <div
+            style="background-image: url(src/img/empty.png)"
+            class="hard"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal_bg">
+      <div class="modal">
+        <h3>Q. 꿀시들의 정체성은?</h3>
+        <ol>
+          <li class="x">불도저형</li>
+          <li class="x">안정형</li>
+          <li class="o">회피형</li>
+          <li class="x">불안형</li>
+        </ol>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(".x").click((e) => {
+        $(".x").removeClass("wrong");
+        $(".o").removeClass("correct");
+        e.target.className = "x wrong";
+      });
+      $(".o").click((e) => {
+        $(".x").removeClass("wrong");
+        e.target.className = "o correct";
+        $(".modal_bg").addClass("destroy");
+      });
+      function loadApp() {
+        // Create the flipbook
+
+        $("#flipbook").turn({
+          // Elevation
+
+          elevation: 50,
+
+          // Enable gradients
+
+          gradients: true,
+
+          // Auto center this flipbook
+
+          autoCenter: true,
+        });
+
+        for (let i = 0; i < 22; i++) {
+          const element = $("<div />", {
+            style: "background-image: url(src/img/" + i + ".png)",
+          });
+          $("#flipbook").turn("addPage", element);
+        }
+        $("#flipbook").turn(
+          "addPage",
+          $("<div />", {
+            style: "background-image: url(src/img/empty.png)",
+            class: "hard",
+          })
+        );
+        $("#flipbook").turn(
+          "addPage",
+          $("<div />", {
+            style: "background-image: url(src/img/end.png)",
+            class: "hard",
+          })
+        );
+      }
+
+      // Load the HTML4 version if there's not CSS transform
+
+      yepnope({
+        test: Modernizr.csstransforms,
+        yep: ["turnjs4/lib/turn.js"],
+        nope: ["turnjs4/lib/turn.html4.min.js"],
+        both: ["main.css"],
+        complete: loadApp,
+      });
+    </script>
+  </body>
+</html>
